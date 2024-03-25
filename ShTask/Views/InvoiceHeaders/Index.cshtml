@@ -12,42 +12,97 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.CustomerName)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.Invoicedate)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.Branch)
             </th>
-            <th>
+            <th class="text-center">
                 @Html.DisplayNameFor(model => model.Cashier)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Branch.City.CityName)
+            </th>
+            <th class="text-center">
+                Item Name
+            </th>
+            <th class="text-center">
+                Item Count
+            </th>
+            <th class="text-center">
+                Item Price
+            </th>
+            <th class="text-center">
+                Total Price
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Invoicedate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Branch.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cashier.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            var totalPrice = 0.0;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Invoicedate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch.BranchName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cashier.CashierName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch.City.CityName)
+                </td>
+                <td colspan="3">
+                    <div class="grid-container">
+                        @*  <div class="grid-item">Item Name</div>
+                    <div class="grid-item">Item Count</div>
+                    <div class="grid-item">Item Price</div> *@
+                        @foreach (var details in item.InvoiceDetails)
+                        {
+                            totalPrice += details.ItemPrice;
+                            <div class="grid-item fw-bold">@Html.DisplayFor(modelItem => details.ItemName)</div>
+                            <div class="grid-item fw-bold">@Html.DisplayFor(modelItem => details.ItemCount)</div>
+                            <div class="grid-item fw-bold">@Html.DisplayFor(modelItem => details.ItemPrice) $</div>
+                        }
+                    </div>
+                </td>
+                <td class="text-center fs-5 fw-bold m-auto">
+                    @totalPrice $
+                </td>
+
+                <td>
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">Edit</a> |
+                    @* <a asp-action="Details" asp-route-id="@item.Id">Details</a> | *@
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-gap: 10px;
+        padding: 10px;
+        background-color: #00800054;
+    }
+
+    .grid-item {
+        border: 1px solid #ccc;
+        padding: 0px 10px;
+        text-align: center;
+    }
+
+</style>

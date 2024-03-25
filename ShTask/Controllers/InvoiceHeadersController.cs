@@ -21,7 +21,7 @@ namespace ShTask.Controllers
         // GET: InvoiceHeaders
         public async Task<IActionResult> Index()
         {
-            var shaTaskContext = _context.InvoiceHeaders.Include(i => i.Branch).Include(i => i.Cashier);
+            var shaTaskContext = _context.InvoiceHeaders.Include(i => i.Branch).Include(i => i.Cashier).Include(i => i.InvoiceDetails).Include(i => i.Branch.City);
             return View(await shaTaskContext.ToListAsync());
         }
 
