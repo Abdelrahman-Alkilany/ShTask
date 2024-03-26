@@ -7,19 +7,19 @@
 $(document).ready(function () {
     var detailsList = []; // Initialize detailsList as an empty array
     var _Id = -1;
+    extractFromTable()
+    $("#AddItemE").on("click", function () {
+        event.preventDefault(); // Prevent the default form submission behavior
 
-    $("#AddItem").on("click", function () {
         debugger;
         var _ItemName = $("#dtlItemName").val();
         var _ItemPrice = $("#ItemPrice").val();
         var _ItemCount = $("#ItemCount").val();
-
         if (_ItemName == '' || _ItemPrice == '' || _ItemCount == '') {
 
         }
 
         else {
-
 
             var obj = {
                 Id: _Id,
@@ -54,6 +54,43 @@ $(document).ready(function () {
     }
 
 
+    function extractFromTable() {
+        _Id =- 1;
+        debugger
+        var extractedData = [];
+
+        // Iterate over each row of the table
+        $("#dataTable tr").each(function (index, row) {
+            var rowData = [];
+
+            // Iterate over each cell (td) of the row
+            $(row).find("td").each(function (cellIndex, cell) {
+                // Extract the data from the cell and add it to the rowData array
+                var cellData = $(cell).text().trim();
+                rowData.push(cellData);
+                $(this).remove();
+            });
+
+            // Add the rowData array to the extractedData array
+            extractedData.push(rowData);
+        });
+        for (var i = 0; i < extractedData.length; i++) {
+            var item = {
+                Id: _Id,
+                ItemName: extractedData[i][0],
+                ItemPrice: extractedData[i][1],
+                ItemCount: extractedData[i][2]
+
+            }
+            _Id -= 1;
+
+            detailsList.push(item); // Use push method to add obj to detailsList
+
+            appendToTable(item);
+        }
+        console.log(extractedData);
+    }
+
 
 
 
@@ -70,21 +107,13 @@ $(document).ready(function () {
     });
 
 
-
-
-    $("#AddInvoice").on("click", function () {
-        event.preventDefault(); // Prevent the default form submission behavior
-
+    $("#EditInvoice").on("click", function () {
         debugger
-        //let model = {
-        //    CustomerName: $("#CustomerName").val(),
-        //    BranchId: $("#BranchId").val(),
-        //    CashierId: $("#CashierId").val(),
-        //    Invoicedate: $("#Invoicedate").val(),
-        //    InvoiceDetails: detailsList
-        //}
+
+
         console.log($("#Invoicedate").val())
         let invoiceHeader = {
+            Id: $("#InvoiceId").val(),
             CustomerName: $("#CustomerName").val(),
             Invoicedate: $("#Invoicedate").val().toString(), // Serialize date to ISO string
             CashierId: $("#CashierId").val(), // Assuming this is obtained from some input field
@@ -93,7 +122,7 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: '/Invoices/Create', // Specify your server endpoint URL
+            url: '/Invoices/Edit', // Specify your server endpoint URL
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(invoiceHeader),
@@ -110,14 +139,9 @@ $(document).ready(function () {
         });
 
 
-     
+
     }
     )
-
-
-    
-
-
 
 
 

@@ -1,0 +1,134 @@
+﻿@model ShTask.Models.InvoiceHeader
+@* @model ShTask.ViewModels.MainInvoiceViewModel *@
+@{
+    ViewData["Title"] = "Edit";
+
+    var totalPrice = 0.0;
+
+}
+
+
+
+<h1>Edit</h1>
+
+<h4>InvoiceHeader</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form  class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-4">
+                <input type="hidden" id="InvoiceId" value="@Model.Id"/>
+                <div class="form-group">
+
+                    <label asp-for="CustomerName" class="control-label"></label>
+                    <input asp-for="CustomerName" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Invoicedate" class="control-label"></label>
+                    <input asp-for="Invoicedate" class="form-control" /> 
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CashierId" class="control-label">Cashier</label>
+                    <select asp-for="CashierId" class="form-control" asp-items="ViewBag.CashierId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BranchId" class="control-label">Branch</label>
+                    <select asp-for="BranchId" class="form-control" asp-items="ViewBag.BranchId"></select>
+                </div>
+            </div>
+            <div class=" col-8">
+                <div class="row align-items-center d-flex">
+                    <div class="form-group col-3">
+                        <label for="dtlItemName" class="control-label">ItemName</label>
+                        <input id="dtlItemName" class="form-control" />
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="ItemCount" class="control-label">ItemCount</label>
+                        <input type="number" id="ItemCount" class="form-control" />
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="ItemPrice" class="control-label">ItemPrice</label>
+                        <input id="ItemPrice" type="number" class="form-control" />
+                    </div>
+
+                    <div class="form-group col-3 mt-3">
+                        <button class="btn btn-info" id="AddItemE">Add Item</button>
+                    </div>
+                </div>
+                <div class="row align-items-center d-flex">
+                    <table class="table table-success table-striped-columns">
+                        <thead>
+                            <tr class="">
+                                <th class="text-center">
+                                    Item Name
+                                </th>
+                                <th class="text-center">
+                                    Item Count
+                                </th>
+                                <th class="text-center">
+                                    Item Price
+                                </th>
+
+                                <th class="text-center">Delete</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dataTable" >
+                            @foreach (var item in Model.InvoiceDetails)
+                            {
+                                <tr class="">
+                                    <td class="text-center">
+                                        @item.ItemName
+                                    </td>
+                                    <td class="text-center">
+                                        @item.ItemCount
+                                    </td>
+                                    <td class="text-center">
+                                        @item.ItemPrice
+                                    </td>
+
+
+                                    <td class="text-center"><button class="btn btn-danger DeleteRow" data-name="@item.Id">Delete Item</button></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+
+
+            </div>
+
+            <br />
+            <div class="form-group justify-content-center d-flex">
+                <input id="EditInvoice" type="button" value="Edit" class="btn btn-primary col-8" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<br />
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+
+@section Scripts {
+
+
+
+    @{
+        <script src="~/js/Edit.js" asp-append-version="true"></script>
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

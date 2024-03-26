@@ -1,0 +1,194 @@
+﻿@model ShTask.Models.InvoiceHeader
+@* @model ShTask.ViewModels.MainInvoiceViewModel *@
+@{
+    ViewData["Title"] = "Create";
+    List<InvoiceDetail> InvoiceDetailsList = new List<InvoiceDetail>();
+    InvoiceDetailsList.Add(new InvoiceDetail { Id = 5, ItemName = "asdw", ItemCount = 5, ItemPrice = 55 });
+
+    var totalPrice = 0.0;
+
+}
+
+
+
+<h1>Create</h1>
+
+<h4>InvoiceHeader</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form  class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-4">
+
+                <div class="form-group">
+
+                    <label asp-for="CustomerName" class="control-label"></label>
+                    <input  asp-for="CustomerName" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Invoicedate" class="control-label"></label>
+                    <input asp-for="Invoicedate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" /> @* still need some fixes *@
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CashierId" class="control-label">Cashier</label>
+                    <select asp-for="CashierId" class="form-control" asp-items="ViewBag.CashierId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BranchId" class="control-label">Branch</label>
+                    <select asp-for="BranchId" class="form-control" asp-items="ViewBag.BranchId"></select>
+                </div>
+            </div>
+            <div class=" col-8">
+                <div class="row align-items-center d-flex">
+                    <div class="form-group col-3">
+                        <label for="dtlItemName" class="control-label">ItemName</label>
+                        <input id="dtlItemName" class="form-control" />
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="ItemCount" class="control-label">ItemCount</label>
+                        <input type="number" id="ItemCount" class="form-control" />
+                    </div>
+                    <div class="form-group col-3">
+                        <label for="ItemPrice" class="control-label">ItemPrice</label>
+                        <input id="ItemPrice" type="number" class="form-control" />
+                    </div>
+
+                    <div class="form-group col-3 mt-3">
+                        <button class="btn btn-info" id="AddItem">Add Item</button>
+                    </div>
+                </div>
+                <div class="row align-items-center d-flex">
+                    <table class="table table-success table-striped-columns">
+                        <thead>
+                            <tr class="">
+                                <th class="text-center">
+                                    Item Name
+                                </th>
+                                <th class="text-center">
+                                    Item Count
+                                </th>
+                                <th class="text-center">
+                                    Item Price
+                                </th>
+                          
+                                <th class="text-center">Delete</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dataTable" >
+
+              
+
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+
+
+            </div>
+
+
+            <div>
+                @* <table>
+                <thead>
+                <tr>
+                <th class="text-center">
+                Item Name
+                </th>
+                <th class="text-center">
+                Item Count
+                </th>
+                <th class="text-center">
+                Item Price
+                </th>
+                <th class="text-center">
+                Total Price
+                </th>
+                <th></th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                @foreach (var details in InvoiceDetailsList)
+                {
+                totalPrice += details.ItemPrice;
+                <tr>
+
+
+                <td class="grid-item fw-bold">@Html.DisplayFor(modelItem => details.ItemName)</td>
+                <td class="grid-item fw-bold">@Html.DisplayFor(modelItem => details.ItemCount)</td>
+                <td class="grid-item fw-bold">@Html.DisplayFor(modelItem => details.ItemPrice) $</td>
+
+
+
+                <td>
+                <a class="btn btn-danger" onclick="DeleteItem(@details.Id)">Delete</a>
+                </td>
+                </tr>
+                }
+
+                </tbody>
+                </table> *@
+
+                @*             <script>
+
+                function DeleteItem(id) {
+                debugger;
+                // Find the index of the item to remove
+                var indexToRemove = -1;
+                var mylist = @InvoiceDetailsList.ToList();
+                for (var i = 0; i < mylist.length; i++) {
+                if (InvoiceDetailsList[i].Id === id) {
+                indexToRemove = i;
+                break;
+                }
+                }
+
+                // Remove the item from the list if found
+                if (indexToRemove !== -1) {
+                mylist.splice(indexToRemove, 1);
+                console.log('Item deleted successfully');
+                // Optionally update the UI or perform other actions
+                } else {
+                console.error('Item not found');
+                }
+                console.log(mylist)
+                }
+                </script>
+                *@
+            </div>
+
+            <br />
+            <div class="form-group justify-content-center d-flex">
+                <input id="AddInvoice" type="button"  value="Create" class="btn btn-primary col-8" />
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<br />
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+
+@section Scripts {
+
+
+
+
+    @{
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

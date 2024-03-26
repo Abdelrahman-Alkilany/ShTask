@@ -15,9 +15,9 @@ public partial class InvoiceHeader
 
     public int BranchId { get; set; }
 
-    public virtual Branch Branch { get; set; } = null!;
+    public virtual Branch? Branch { get; set; } = null!;
 
     public virtual Cashier? Cashier { get; set; }
 
-    public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; } = new List<InvoiceDetail>();
+    public virtual ICollection<InvoiceDetail>? InvoiceDetails { get; set; } = new List<InvoiceDetail>();
 }

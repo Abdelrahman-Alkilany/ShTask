@@ -15,5 +15,5 @@ public partial class InvoiceDetail
 
     public double ItemPrice { get; set; }
 
-    public virtual InvoiceHeader InvoiceHeader { get; set; } = null!;
+    public virtual InvoiceHeader? InvoiceHeader { get; set; } = null!;
 }
