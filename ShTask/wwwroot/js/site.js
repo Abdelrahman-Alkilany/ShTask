@@ -9,6 +9,9 @@ $(document).ready(function () {
     var _Id = -1;
 
     $("#AddItem").on("click", function () {
+
+        event.preventDefault(); // Prevent the default form submission behavior
+
         debugger;
         var _ItemName = $("#dtlItemName").val();
         var _ItemPrice = $("#ItemPrice").val();
